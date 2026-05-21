@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Profile | AI Smart Interview Prep</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="profile.css" />
+</head>
+<body>
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
+  <header class="navbar">
+    <div>
+      <div class="logo">AI Interview Prep</div>
+      <p class="subtitle">Complete Your Profile</p>
+    </div>
+    <a href="index.html" class="icon-btn link-btn" aria-label="Back to home">←</a>
+  </header>
+
+  <main class="profile-page">
+    <section class="profile-card reveal">
+      <h1>Student Profile</h1>
+      <p class="auth-subtitle">Complete your details to personalize the interview experience.</p>
+
+      <form id="profileForm" class="profile-form">
+        <div class="form-grid">
+          <div>
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" placeholder="Your full name" required />
+          </div>
+
+          <div>
+            <label for="college">College / University</label>
+            <input type="text" id="college" placeholder="Your college name" required />
+          </div>
+
+          <div>
+            <label for="branch">Branch / Stream</label>
+            <input type="text" id="branch" placeholder="Computer Science, IT, etc." required />
+          </div>
+
+          <div>
+            <label for="year">Year</label>
+            <select id="year" required>
+              <option value="">Select year</option>
+              <option>1st Year</option>
+              <option>2nd Year</option>
+              <option>3rd Year</option>
+              <option>4th Year</option>
+              <option>Graduate</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label for="role">Preferred Role</label>
+            <select id="role" required>
+              <option value="">Select role</option>
+              <option>Software Developer</option>
+              <option>DevOps Engineer</option>
+              <option>Data Analyst</option>
+              <option>Web Developer</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="interest">Main Interest</label>
+            <input type="text" id="interest" placeholder="Frontend, Cloud, Data, etc." required />
+          </div>
+        </div>
+
+        <label for="skills">Skills</label>
+        <textarea id="skills" rows="4" placeholder="JavaScript, React, SQL, Docker..." required></textarea>
+
+        <div class="form-grid">
+          <div>
+            <label for="github">GitHub</label>
+            <input type="url" id="github" placeholder="https://github.com/username" />
+          </div>
+
+          <div>
+            <label for="linkedin">LinkedIn</label>
+            <input type="url" id="linkedin" placeholder="https://linkedin.com/in/username" />
+          </div>
+        </div>
+
+        <button type="submit" class="btn primary full">Let's Begin Now</button>
+        <p id="profileMsg" class="success-text"></p>
+      </form>
+    </section>
+  </main>
+
+  <script src="profile.js"></script>
+</body>
+</html>

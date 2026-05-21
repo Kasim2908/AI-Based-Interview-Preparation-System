@@ -1,0 +1,24 @@
+{
+  "name": "ai-interview-prep",
+  "version": "1.0.0",
+  "description": "AI-powered interview preparation platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ai",
+    "interview",
+    "prep"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongodb": "^7.2.0",
+    "openai": "^6.38.0"
+  }
+}

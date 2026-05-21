@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signup | AI Smart Interview Prep</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="signup.css" />
+</head>
+<body>
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
+  <header class="navbar">
+    <div>
+      <div class="logo">AI Interview Prep</div>
+      <p class="subtitle">Create Your Student Account</p>
+    </div>
+    <a href="index.html" class="icon-btn link-btn" aria-label="Back to home">←</a>
+  </header>
+
+  <main class="auth-page">
+    <section class="auth-card reveal">
+      <h1 id="formTitle">Create Account</h1>
+      <p id="formSubtitle" class="auth-subtitle">
+        Join to start your interview preparation journey.
+      </p>
+
+      <div class="demo-box">
+        <strong style="color: var(--primary);">🎯 Demo Credentials</strong><br />
+        <strong>Email:</strong> <code style="background: rgba(0,0,0,0.2); padding: 4px 6px; border-radius: 4px;">student@gmail.com</code><br />
+        <strong>Password:</strong> <code style="background: rgba(0,0,0,0.2); padding: 4px 6px; border-radius: 4px;">student@123</code><br />
+        <small style="color: var(--muted); margin-top: 8px; display: block;">Use these credentials to explore the platform with a demo account.</small>
+      </div>
+
+      <form id="authForm" class="auth-form">
+        <div id="nameField" class="hidden">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="Your full name" />
+        </div>
+
+        <div>
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="student@gmail.com" required />
+        </div>
+
+        <div>
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••" required />
+        </div>
+
+        <button type="submit" id="submitBtn" class="btn primary full">
+          Create Account
+        </button>
+
+        <p id="errorText" class="error-text"></p>
+      </form>
+
+      <p class="auth-subtitle" style="text-align: center; margin-top: 16px">
+        <span id="toggleText">Already have an account?</span>
+        <button id="toggleForm" class="btn ghost" style="padding: 6px 10px; margin-left: 8px">
+          Login
+        </button>
+      </p>
+    </section>
+  </main>
+
+  <script src="signup.js"></script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | AI Smart Interview Prep</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
+  <header class="navbar">
+    <div>
+      <div class="logo">AI Interview Prep</div>
+      <p class="subtitle" id="welcomeText">Welcome back</p>
+    </div>
+    <div class="nav-actions">
+      <button id="logoutBtn" class="btn secondary">Logout</button>
+      <button id="themeToggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="dashboard-hero reveal">
+      <div>
+        <span class="badge">Student Dashboard</span>
+        <h1>Interview Preparation Platform</h1>
+        <p>
+          Practice role-based mock interviews, get instant feedback, record answers, and track progress.
+        </p>
+      </div>
+    </section>
+
+    <section class="dashboard">
+      <aside class="panel setup-panel reveal">
+        <h2>Choose Role</h2>
+        <div id="roleGrid" class="chip-grid"></div>
+
+        <h2>Question Category</h2>
+        <div id="categoryGrid" class="chip-grid"></div>
+
+        <button id="startBtn" class="btn primary full">Start Interview</button>
+
+        <div class="mini-stats">
+          <div class="stat-card">
+            <span>Timer</span>
+            <strong id="timerText">01:30</strong>
+          </div>
+          <div class="stat-card">
+            <span>Score</span>
+            <strong id="scoreText">0</strong>
+          </div>
+        </div>
+      </aside>
+
+      <section class="center-column">
+        <section class="panel interview-panel reveal">
+          <div class="panel-head">
+            <div>
+              <h2>Mock Interview</h2>
+              <p id="roleLabel">Role: Software Developer | Category: Technical</p>
+            </div>
+            <div class="progress-wrap">
+              <span id="questionCount">Question 1 of 3</span>
+              <div class="progress-bar">
+                <div id="progressFill"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="question-box">
+            <h3 id="questionText">Click “Start Interview” to begin.</h3>
+          </div>
+
+          <textarea id="answerInput" placeholder="Type your answer here..." rows="7"></textarea>
+
+          <div class="action-row">
+            <button id="submitBtn" class="btn primary">Submit Answer</button>
+            <button id="nextBtn" class="btn secondary">Next Question</button>
+            <button id="recordBtn" class="btn ghost">🎙 Start Recording</button>
+            <button id="askAIBtn" class="btn ghost" title="Ask AI questions about topics">💡 Ask AI</button>
+            <button id="resetBtn" class="btn danger">Reset</button>
+          </div>
+
+          <audio id="audioPlayer" controls class="audio-player hidden"></audio>
+        </section>
+
+        <section class="panel feedback-panel reveal">
+          <h2>AI Feedback</h2>
+          <div id="feedbackBox" class="feedback-box">
+            Your feedback will appear here after you submit an answer.
+          </div>
+
+          <div class="score-grid">
+            <div class="score-card">
+              <span>Clarity</span>
+              <strong id="clarityScore">0/10</strong>
+            </div>
+            <div class="score-card">
+              <span>Confidence</span>
+              <strong id="confidenceScore">0/10</strong>
+            </div>
+            <div class="score-card">
+              <span>Relevance</span>
+              <strong id="keywordScore">0/10</strong>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <aside class="panel history-panel reveal">
+        <div class="panel-head">
+          <div>
+            <h2>Score History</h2>
+            <p>Saved locally in your browser</p>
+          </div>
+          <button id="clearHistoryBtn" class="btn tiny">Clear</button>
+        </div>
+        <div id="historyList" class="history-list"></div>
+      </aside>
+    </section>
+  </main>
+
+  <!-- Q&A Modal -->
+  <div id="qaModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>💡 Ask AI Assistant</h2>
+        <button id="closeQAModal" class="close-btn">&times;</button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="qa-input-section">
+          <label for="qaInput">Ask any technical, aptitude, or interview-related question:</label>
+          <div class="qa-input-wrapper">
+            <input 
+              id="qaInput" 
+              type="text" 
+              placeholder="e.g., What is Docker? What is React? Explain microservices..."
+              class="qa-input"
+            />
+            <button id="askBtn" class="btn primary">Ask</button>
+          </div>
+          <div class="suggestion-box">
+            <p style="color: var(--muted); font-size: 0.85rem; margin-top: 12px;">
+              <strong>Examples:</strong> What is Docker? | Explain React | What are microservices? | 
+              Tell me about REST APIs | What is Git? | Explain cloud computing
+            </p>
+          </div>
+        </div>
+
+        <div class="qa-history" id="qaHistory">
+          <div style="text-align: center; color: var(--muted); padding: 20px;">
+            <p>Your Q&A history will appear here</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q&A Modal Overlay -->
+  <div id="qaOverlay" class="modal-overlay hidden"></div>
+
+  <footer class="footer">
+    <p>AI-Based Smart Interview Preparation System</p>
+  </footer>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
