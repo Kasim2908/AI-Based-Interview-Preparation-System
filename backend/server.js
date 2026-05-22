@@ -2,9 +2,20 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const fs = require('fs');
+const multer = require('multer');
+const { OpenAI } = require('openai');
 
 const app = express();
 const port = 3000;
+
+// Initialize OpenAI
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
+
+// Configure multer for file uploads
+const upload = multer({ storage: multer.memoryStorage() });
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../public')));
@@ -151,6 +162,114 @@ app.post('/api/ask', async (req, res) => {
   } catch (error) {
     console.error('Error processing question:', error);
     res.status(500).json({ error: 'Failed to process question.' });
+  }
+});
+
+// Speech-to-Text Endpoint (Whisper API)
+app.post('/api/speech-to-text', upload.single('audio'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No audio file provided.' });
+    }
+
+    console.log(`[Whisper] Processing audio file: ${req.file.originalname}`);
+
+    const tempDir = path.join(__dirname, 'temp');
+    if (!fs.existsSync(tempDir)) {
+      fs.mkdirSync(tempDir);
+    }
+    const tempFilePath = path.join(tempDir, `audio_${Date.now()}.webm`);
+    
+    fs.writeFileSync(tempFilePath, req.file.buffer);
+
+    const transcript = await openai.audio.transcriptions.create({
+      file: fs.createReadStream(tempFilePath),
+      model: 'whisper-1',
+      language: 'en'
+    });
+
+    fs.unlinkSync(tempFilePath);
+
+    const text = transcript.text;
+    console.log(`[Whisper] Transcribed text: "${text}"`);
+
+    res.json({ text, success: true });
+  } catch (error) {
+    console.error('[Whisper] Error:', error.message);
+    res.status(500).json({ 
+      error: 'Failed to transcribe audio. Make sure OpenAI API key is configured.',
+      message: error.message 
+    });
+  }
+});
+
+// Text-to-Speech Endpoint
+app.post('/api/text-to-speech', async (req, res) => {
+  try {
+    const { text } = req.body;
+
+    if (!text || !text.trim()) {
+      return res.status(400).json({ error: 'Text content is required.' });
+    }
+
+    console.log(`[TTS] Converting text to speech: "${text.substring(0, 50)}..."`);
+
+    if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'sk-your-key-here') {
+      console.error('[TTS] ❌ No valid OpenAI API key found');
+      return res.status(400).json({ 
+        error: 'OpenAI API key not configured',
+        message: 'Please add OPENAI_API_KEY to .env file'
+      });
+    }
+
+    const audioResponse = await openai.audio.speech.create({
+      model: 'tts-1',
+      voice: 'alloy',
+      input: text,
+    });
+
+    const buffer = Buffer.from(await audioResponse.arrayBuffer());
+    
+    console.log(`[TTS] ✅ Audio generated successfully (${buffer.length} bytes)`);
+
+    res.setHeader('Content-Type', 'audio/mpeg');
+    res.setHeader('Content-Length', buffer.length);
+    res.setHeader('Accept-Ranges', 'bytes');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.send(buffer);
+    
+  } catch (error) {
+    console.error('[TTS] Error:', error.message);
+    res.status(500).json({ 
+      error: 'Failed to generate speech',
+      message: error.message
+    });
+  }
+});
+
+// Test TTS endpoint for debugging
+app.get('/api/test-tts', async (req, res) => {
+  try {
+    console.log('[TEST] Testing TTS endpoint...');
+    
+    const audioResponse = await openai.audio.speech.create({
+      model: 'tts-1',
+      voice: 'alloy',
+      input: 'Hello, this is a test of the text to speech system.',
+    });
+
+    const buffer = Buffer.from(await audioResponse.arrayBuffer());
+    console.log(`[TEST] ✅ Test audio generated (${buffer.length} bytes)`);
+
+    res.setHeader('Content-Type', 'audio/mpeg');
+    res.setHeader('Content-Length', buffer.length);
+    res.send(buffer);
+  } catch (error) {
+    console.error('[TEST] Error:', error.message);
+    res.status(500).json({ 
+      error: 'Test failed',
+      message: error.message 
+    });
   }
 });
 
